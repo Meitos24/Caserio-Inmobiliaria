@@ -35,17 +35,5 @@ npm run dev
 - **Frontend**: Next.js 14, React, Tailwind CSS
 - **Base de datos**: PostgreSQL / SQLite
 
-## 📦 Variables de Entorno
 
-### Backend (.env en /backend)
-\`\`\`
-SECRET_KEY=tu-secret-key
-DEBUG=True
-DATABASE_URL=postgresql://...
-\`\`\`
-
-### Frontend (.env.local en /frontend)
-\`\`\`
-NEXT_PUBLIC_API_URL=http://localhost:8000
-\`\`\`
 

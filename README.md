@@ -1,11 +1,9 @@
-# 🏃 Mi App de Running
-
-Aplicación completa de running con backend Django y frontend Next.js.
+# 🏃 Caserio Boutique Inmobiliaria
 
 ## 🏗️ Estructura del Proyecto
 
 \`\`\`
-mi-proyecto-running/
+CASERIO/
 ├── backend/          # API Django REST Framework
 ├── frontend/         # Aplicación Next.js
 ├── .gitignore
@@ -51,10 +49,3 @@ DATABASE_URL=postgresql://...
 NEXT_PUBLIC_API_URL=http://localhost:8000
 \`\`\`
 
-## 🤝 Contribuir
-
-1. Fork el proyecto
-2. Crea una rama (\`git checkout -b feature/nueva-funcionalidad\`)
-3. Commit tus cambios (\`git commit -m 'Agregar nueva funcionalidad'\`)
-4. Push a la rama (\`git push origin feature/nueva-funcionalidad\`)
-5. Abre un Pull Request

@@ -1,4 +1,4 @@
-# 🏃 Caserio Boutique Inmobiliaria
+# 🏠 Caserio Boutique Inmobiliaria
 
 ## 🏗️ Estructura del Proyecto
 

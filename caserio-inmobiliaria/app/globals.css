@@ -100,6 +100,58 @@
   /* FUENTES */
   --font-neiko: "Neiko", sans-serif;
   --font-satoshi: "Satoshi", sans-serif;
+
+  --font-size-small: 13px;
+  --font-size-normal: 14px;
+  --font-size-median: 16px;
+  --font-size-large: 18px;
+
+  --fs-display-xl: clamp(48px, 15vw, 180px);
+  --fs-display-lg: clamp(36px, 8vw, 72px);
+
+  --fs-h1: clamp(28px, 6vw, 52px);
+  --fs-h2: clamp(20px, 4vw, 32px);
+
+  --fs-body-lg: 14px;
+  --fs-body-sm: 12px;
+
+  --fs-caption: 10px;
+  --fs-overline: 9px;
+
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --font-size-small: 14px;
+    --font-size-normal: 16px;
+    --font-size-median: 18px;
+    --font-size-large: 20px;
+
+    --fs-body-lg: 16px;
+    --fs-body-sm: 14px;
+    --fs-caption: 11px;
+    --fs-overline: 10px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --fs-display-xl: clamp(80px, 12vw, 180px);
+    --fs-display-lg: clamp(48px, 6vw, 72px);
+    --fs-h1: clamp(32px, 4vw, 52px);
+    --fs-h2: clamp(24px, 3vw, 32px);
+  }
+}
+
+@theme {
+  --text-small: var(--font-size-small);
+  --text-normal: var(--font-size-normal);
+  --text-large: var(--font-size-large);
 }
 
 @theme inline {
@@ -121,4 +173,31 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-satoshi);
+  font-size: var(--font-size-normal);
+}
+
+@media (max-width: 639px) {
+  html {
+    font-size: 14px;
+  }
+
+  body {
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  button,
+  a {
+    min-height: 44px;
+    min-width: 44px;
+  }
 }

@@ -9,6 +9,7 @@ import { ArrowLeft, Upload, X, Plus } from "lucide-react"
 import { Button } from "@/app/components/ui/button"
 import localFont from "next/font/local";
 import axios from "axios"
+import { useRouter } from "next/navigation"
 
 
 const neikoFont = localFont({
@@ -63,6 +64,8 @@ export default function NewPropertyPage() {
     const [imageFiles, setImageFiles] = useState<File[]>([]);
     const [previews, setPreviews] = useState<string[]>([]);
     const [newLocationDetail, setNewLocationDetail] = useState("")
+
+    const router = useRouter();
 
     const paymentMethodOptions = [
         "Recurso propio",
@@ -120,7 +123,7 @@ export default function NewPropertyPage() {
     };
 
     const removeImage = (index: number) => {
-        setImages(images.filter((_, i) => i !== index))
+        setImageFiles(imageFiles.filter((_, i) => i !== index))
     }
 
     const addLocationDetail = () => {
@@ -150,6 +153,7 @@ export default function NewPropertyPage() {
         e.preventDefault();
 
         const data = new FormData();
+
 
         // 1. Agregamos los campos de texto
         data.append("title", formData.title);
@@ -181,6 +185,10 @@ export default function NewPropertyPage() {
 
             if (response.ok) {
                 alert("¡Propiedad e imágenes guardadas con éxito!");
+                router.replace('../../../admin/properties')
+            } else {
+                const errorData = await response.json();
+                console.log("Errores de validación: ", errorData);
             }
         } catch (error) {
             console.error("Error al subir:", error);
@@ -189,19 +197,14 @@ export default function NewPropertyPage() {
 
     return (
         <div className={`${satoshiFont.variable} ${neikoFont.variable} font-sans`}>
-            <div className="min-h-screen bg-zinc-950 text-zinc-100">
+            <div className="min-h-screen bg-[#131415] text-zinc-100">
                 {/* Header */}
-                <div className="border-b border-zinc-800/50 backdrop-blur-sm bg-zinc-950/80 sticky top-0 z-10">
+                <div className="border-b border-zinc-800/50 backdrop-blur-sm bg-[#131415] sticky top-0 z-10">
                     <div className="max-w-7xl mx-auto px-6 py-4">
                         <div className="flex items-center gap-4">
-                            <Link href="/">
-                                <Button variant="ghost" size="icon" className="text-zinc-400 hover:bg-[#E59136] hover:text-[#F6F6F6]">
-                                    <ArrowLeft className="h-5 w-5" />
-                                </Button>
-                            </Link>
-                            <div>
-                                <h1 className="text-2xl font-light tracking-tight">Nueva Propiedad</h1>
-                                <p className="text-sm text-zinc-500 font-light">Completa los detalles de la propiedad</p>
+                            <div className="bg-[#131415]">
+                                <h1 className="text-4xl font-light tracking-tight">Nueva Propiedad</h1>
+                                <p className="mt-2 text-2xl text-zinc-500 font-light">Completa los detalles de la propiedad</p>
                             </div>
                         </div>
                     </div>
@@ -482,7 +485,7 @@ export default function NewPropertyPage() {
                         {/* Botones de acción */}
                         <div className="flex justify-end gap-4">
                             <Link href="/admin">
-                                <Button variant="outline" className="border-zinc-800 text-zinc-400 hover:text-zinc-100 bg-transparent">
+                                <Button variant="outline" className="border-zinc-800 text-zinc-400 hover:text-[#131415] bg-transparent">
                                     Cancelar
                                 </Button>
                             </Link>

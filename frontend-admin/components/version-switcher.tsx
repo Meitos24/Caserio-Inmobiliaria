@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { Check, ChevronsUpDown, GalleryVerticalEnd } from "lucide-react"
-import logo from "../assets/images/logo.jpeg"
+import logo2 from "../assets/images/logo2.png"
 
 import {
   DropdownMenu,
@@ -37,13 +37,13 @@ export function VersionSwitcher({
             >
               <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                 {/* <GalleryVerticalEnd className="size-4" /> */}
-                <Image src={logo} alt="logo"/>
+                <Image src={logo2} alt="logo" className="bg-[#0b0909]"/>
               </div>
               <div className="flex flex-col gap-0.5 leading-none">
-                <span className="font-medium">Panel de Administrador</span>
+                <span className="font-medium">CASERIO BOUTIQUE</span>
                 {/* <span className="">v{selectedVersion}</span> */}
               </div>
-              <ChevronsUpDown className="ml-auto" />
+              {/* <ChevronsUpDown className="ml-auto" /> */}
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent

@@ -36,7 +36,7 @@ export default function AdminDashboard() {
             <main className="relative min-h-screen w-full overflow-x-hidden bg-[#131415] text-white">
 
                 {/* Fondo con imagen y overlay */}
-                <div className="absolute inset-0 z-0">
+                {/* <div className="absolute inset-0 z-0">
                     <Image
                         src={imagenFondo2}
                         alt="Background"
@@ -44,21 +44,21 @@ export default function AdminDashboard() {
                         className="object-cover opacity-20"
                         priority
                     />
-                </div>
+                </div> */}
 
                 {/* Header Responsivo */}
                 <nav className="relative z-10 flex items-center justify-between px-6 md:px-10 py-6 border-b border-white/10">
                     <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-3">
-                        <h1 className="text-lg md:text-2xl font-light tracking-tight">CASERIO BOUTIQUE</h1>
-                        <span className="text-xs md:text-2xl uppercase tracking-widest opacity-40 md:opacity-60">
-                            <span className="hidden md:inline">/</span> Admin Dashboard
+                        {/* <h1 className="text-lg md:text-2xl font-light tracking-tight">CASERIO BOUTIQUE</h1> */}
+                        <span className="text-xs md:text-2xl uppercase tracking-widest">
+                             Admin Dashboard
                         </span>
                     </div>
-                    <div className="flex items-center">
+                    {/* <div className="flex items-center">
                         <button className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/20 transition">
                             <span className="text-xs font-medium">JD</span>
                         </button>
-                    </div>
+                    </div> */}
                 </nav>
 
                 {/* Contenido Principal */}
@@ -119,7 +119,10 @@ export default function AdminDashboard() {
                         </Link>
 
                         {/* Card para Administrar */}
+                        {/* <Link href="/">
+
                         <div className="group relative overflow-hidden bg-white/5 backdrop-blur-md border border-white/20 rounded-xl p-8 md:p-10 hover:bg-[#E59136] transition-all duration-500 cursor-pointer min-h-[280px] md:h-80 flex flex-col justify-between">
+                            
                             <div className="absolute top-4 right-4 md:top-6 md:right-6 opacity-10 group-hover:opacity-20 transition-opacity">
                                 <svg className="w-24 h-24 md:w-32 md:h-32" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={0.5} d="M4 5h16M4 12h16M4 19h16" />
@@ -142,7 +145,8 @@ export default function AdminDashboard() {
                                 <span>Ver Todas</span>
                                 <span className="text-lg">→</span>
                             </div>
-                        </div>
+                            </div>
+                        </Link> */}
                     </div>
 
                     {/* Acciones Rápidas - Flexbox inteligente */}

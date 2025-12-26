@@ -1,6 +1,8 @@
-import * as React from "react"
+"use client" // Necesario para usar usePathname
 
-// import { SearchForm } from "@/components/search-form"
+import * as React from "react"
+import Link from "next/link" // Importamos Link para navegación interna
+import { usePathname } from "next/navigation" // Para detectar la ruta actual
 import { VersionSwitcher } from "./version-switcher"
 import {
   Sidebar,
@@ -16,39 +18,36 @@ import {
 } from "@/components/ui/sidebar"
 import { LayoutDashboard, House, Bolt } from 'lucide-react';
 
-
-// This is sample data.
 const data = {
   versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
   navMain: [
     {
-      title: "",
+      title: "Administración",
       url: "#",
       items: [
         {
           title: "Dashboard",
-          url: "#",
+          url: "/admin", // Apunta a app/admin/page.js
           icon: LayoutDashboard,
         },
         {
           title: "Propiedades",
-          url: "#",
-          isActive: true,
+          url: "/admin/properties", // Apunta a app/admin/properties/page.js
           icon: House,
-
         },
         {
           title: "Configuración",
-          url: "#",
+          url: "/admin/config", // Ajusta según tus carpetas
           icon: Bolt,
         },
       ],
     },
-    
   ],
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const pathname = usePathname() // Obtenemos la ruta actual (ej: /admin)
+
   return (
     <Sidebar {...props}>
       <SidebarHeader>
@@ -58,19 +57,22 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         />
       </SidebarHeader>
       <SidebarContent>
-        {/* We create a SidebarGroup for each parent. */}
-        {data.navMain.map((item) => (
-          <SidebarGroup key={item.title}>
-            <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
+        {data.navMain.map((group) => (
+          <SidebarGroup key={group.title}>
+            <SidebarGroupLabel>{group.title}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {item.items.map((item) => (
+                {group.items.map((item) => (
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild isActive={item.isActive}>
-                      <a href={item.url}>
+                    {/* isActive ahora es dinámico: brilla si la URL coincide */}
+                    <SidebarMenuButton
+                      asChild
+                      isActive={pathname === item.url}
+                    >
+                      <Link href={item.url}>
                         {item.icon && <item.icon className="w-4 h-4" />}
                         <span>{item.title}</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}

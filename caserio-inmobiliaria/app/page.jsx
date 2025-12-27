@@ -5,7 +5,7 @@ import Image from "next/image";
 import localFont from "next/font/local";
 import imagen02 from "../assets/images/heros/02.png";
 
-// FUNTES LOCALES
+// FUENTES LOCALES
 const neikoFont = localFont({
   src: "../assets/fonts/NeikoRegular-XGMP2.woff",
   variable: "--font-neiko",
@@ -206,7 +206,7 @@ export default function Home() {
               CASERIO
               <br />
               <span className="pl-[0.3em] sm:pl-[0.4em] lg:pl-[0.5em] uppercase">
-                boutiquei
+                boutique
               </span>
             </h1>
           </div>
@@ -217,9 +217,9 @@ export default function Home() {
             <div className="w-full lg:max-w-md space-y-6 sm:space-y-8">
               <div className="space-y-3 sm:space-y-4">
                 <h2 className="text-[clamp(24px,6vw,52px)] sm:text-[clamp(28px,5vw,52px)] lg:text-[clamp(32px,4vw,52px)] leading-tight font-light tracking-wide">
-                  welcome to
+                  Bienvenido a
                   <br />
-                  caserio boutiquei
+                  caserio boutique
                 </h2>
                 <p className="text-[14px] sm:text-normal leading-relaxed opacity-80 max-w-sm">
                   A boutique residential development designed for those who

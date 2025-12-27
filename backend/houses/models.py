@@ -9,9 +9,13 @@ class Propiedad(models.Model):
     title = models.CharField(max_length=255)
     location = models.CharField(max_length=255)
     locationDetails = models.JSONField(default=list, blank=True)  # string[]
+    
+    favourite = models.BooleanField(default=False)
+    available = models.BooleanField(default=True)
 
     price = models.DecimalField(max_digits=15, decimal_places=2)
-    area = models.CharField(max_length=50)  # "250"
+    construction = models.CharField(max_length=50)  # "250"
+    terrain = models.CharField(max_length=50)  # "250"
 
     bedrooms = models.IntegerField(default=1)
     bathrooms = models.IntegerField(default=1)
@@ -25,7 +29,7 @@ class Propiedad(models.Model):
     description = models.TextField(blank=True)
 
     # Para guardar las URLs de las imágenes después de subirlas
-    images = models.JSONField(default=list, blank=True)
+    # images = models.JSONField(default=list, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
 

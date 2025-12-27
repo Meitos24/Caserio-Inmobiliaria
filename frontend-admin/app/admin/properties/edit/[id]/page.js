@@ -1,28 +1,64 @@
-import { BedDouble, Bath, Ruler, CalendarDays, Check, PencilLine, Trash2 } from 'lucide-react';
+'use client';
+
+import { BedDouble, Bath, Ruler, CalendarDays, Check, PencilLine, Trash2, Camera, Ban } from 'lucide-react';
 import localFont from "next/font/local";
+import { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
+import axios from 'axios';
 
 
 const neikoFont = localFont({
-    src: "../../../../assets/fonts/NeikoRegular-XGMP2.woff",
+    src: "../../../../../assets/fonts/NeikoRegular-XGMP2.woff",
     variable: "--font-neiko",
     display: "swap",
 });
 
 const satoshiFont = localFont({
     src: [
-        { path: "../../../../assets/fonts/Satoshi-Light.otf", weight: "300", style: "normal" },
-        { path: "../../../../assets/fonts/Satoshi-Regular.otf", weight: "400", style: "normal" },
-        { path: "../../../..//assets/fonts/Satoshi-Medium.otf", weight: "500", style: "normal" },
-        { path: "../../../..//assets/fonts/Satoshi-Bold.otf", weight: "700", style: "normal" },
+        { path: "../../../../../assets/fonts/Satoshi-Light.otf", weight: "300", style: "normal" },
+        { path: "../../../../../assets/fonts/Satoshi-Regular.otf", weight: "400", style: "normal" },
+        { path: "../../../../..//assets/fonts/Satoshi-Medium.otf", weight: "500", style: "normal" },
+        { path: "../../../../..//assets/fonts/Satoshi-Bold.otf", weight: "700", style: "normal" },
     ],
     variable: "--font-satoshi",
     display: "swap",
 });
 
+
 export default function EditPropertiesPage() {
+
+    const params = useParams();
+    const [property, setProperty] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchProperty = async () => {
+            try {
+                const response = await axios.get(`http://127.0.0.1:8000/api/propiedades/${params.id}`)
+                setProperty(response.data);
+            } catch (error) {
+                console.log("Error al cargar la propiedad: ", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (params.id) fetchProperty();
+
+    }, [params.id]);
+
+    if (loading) return <div className="bg-[#131415] min-h-screen flex items-center justify-center text-white">Cargando datos de la propiedad...</div>;
+    if (!property) return <div className="text-white">Propiedad no encontrada</div>;
+
+    const getImgUrl = (imgObj) => {
+        if (!imgObj) return "https://via.placeholder.com/800x600?text=No+Image";
+        const url = imgObj.imagen;
+        return url.startsWith('http') ? url : `http://localhost:8000${url}`;
+    }
+
     return (
         <div className={`${satoshiFont.variable} ${neikoFont.variable} bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased overflow-hidden`} >
-            <div className="flex h-screen w-full flex-row overflow-hidden">                
+            <div className="flex h-screen w-full flex-row overflow-hidden">
                 {/* <!-- Main Content --> */}
                 <main className="flex-1 flex flex-col h-full overflow-hidden relative bg-background-light dark:bg-background-dark">
                     {/* <!-- Scrollable Area --> */}
@@ -32,35 +68,36 @@ export default function EditPropertiesPage() {
                             <div
                                 className="flex flex-col lg:flex-row gap-6 justify-between items-start lg:items-center border-b border-[#6b7280] pb-6">
                                 <div className="flex flex-col gap-2">
-                                    <h1 className="text-xs md:text-2xl uppercase tracking-widest text-[#F6F6F6]">The Highland Villa
+                                    <h1 className="text-xs md:text-2xl uppercase tracking-widest text-[#F6F6F6]">{property.title}
                                     </h1>
                                     <div className="flex items-center gap-4">
                                         <p className="text-[#93c8a9] text-sm font-mono">ID: #HV-2023-89</p>
-                                        <div
-                                            className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#244733]/50 border border-[#244733]">
-                                            {/* <span className="material-symbols-outlined text-primary text-[18px]">check_circle</span> */}
-                                            <Check className='text-[#F6F6F6]'/>
-                                            <span
-                                                className="text-[#F6F6F6] text-xs font-bold uppercase tracking-wide">Available</span>
-                                        </div>
+                                        {property.available ? (
+                                            <div
+                                                className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#244733]/50 border border-[#244733]">
+                                                <Check className='text-[#F6F6F6]' />
+                                                <span className="text-[#F6F6F6] text-xs font-bold uppercase tracking-wide">Disponible</span>
+                                            </div>
+
+                                        ) : (
+                                                <div
+                                                    className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-red-500/10 border border-red-500/20">
+                                                <Ban className='text-[#F6F6F6]' />
+                                                <span className="text-[#F6F6F6] text-xs font-bold uppercase tracking-wide">No disponible</span>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                                 {/* <!-- Action Buttons --> */}
                                 <div className="flex flex-wrap gap-3">
-                                    {/* <button
-                                        className="flex items-center gap-2 px-4 h-10 rounded-lg bg-[#244733] text-white hover:bg-[#2f5c42] transition-colors text-sm font-bold">
-                                        <span className="material-symbols-outlined text-[20px]">edit</span>
-                                        <span>Edit Property</span>
-                                    </button> */}
                                     <button
                                         className="flex items-center gap-2 px-4 h-10 rounded-lg bg-[#244733] text-white hover:bg-[#2f5c42] transition-colors text-sm font-bold">
-                                        <PencilLine size={16} className='text-[20px]'/>
+                                        <PencilLine size={16} className='text-[20px]' />
                                         <span>Actualizar</span>
                                     </button>
                                     <button
                                         className="flex items-center gap-2 px-4 h-10 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 transition-colors text-sm font-bold">
-                                        {/* <span className="material-symbols-outlined text-[20px]">delete</span> */}
-                                        <Trash2 size={16}/>
+                                        <Trash2 size={16} />
                                         <span>Eliminar</span>
                                     </button>
                                 </div>
@@ -72,18 +109,32 @@ export default function EditPropertiesPage() {
                                     {/* <!-- Image Gallery --> */}
                                     <div className="flex flex-col gap-4">
                                         <div className="w-full aspect-video rounded-xl bg-gray-800 overflow-hidden relative group">
-                                            <img alt="Modern luxury villa exterior with pool at dusk"
+                                            <img
+                                                alt="Principal"
                                                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                                 data-alt="Modern luxury villa exterior with pool at dusk"
-                                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6cYhF9BYN1HZbfff6kx3xkjXrj5cp3AKHGB62NBzgl2yLnFewr08hvl-IQwi-XmAoFwfJ58lXAo_iPHSIs12852--Kc3QIlE4AiB-tw4f6miBQ6Bbr95fLQwB0PXUehYpHujuus_s6_F1a5UT1dXvip2YZuP0EXBfz0XHcrCJvElFyz3pthQ5d0RvW8XX5AOjPOSoqwo9U3ruBjpQpQzZZ5eDzt3xNm0t7qgs57-Ee_z_AuWN2OeJ2Jyd4C2JIFAizps5xTX3P60" />
+                                                src={property.imagenes?.length > 0 ? getImgUrl(property.imagenes[0]) : "https://via.placeholder.com/800x600"} />
                                             <div
                                                 className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md text-white px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-2">
-                                                <span className="material-symbols-outlined text-sm">photo_camera</span>
-                                                Show all 24 photos
+                                                {/* <span className="material-symbols-outlined text-sm">photo_camera</span> */}
+                                                <Camera />
+                                                Mostrar todas las fotos
                                             </div>
                                         </div>
                                         <div className="grid grid-cols-4 gap-4">
-                                            <div
+                                            {property.imagenes?.slice(1).map((img, index) => (
+                                                <div
+                                                    key={index}
+                                                    className="aspect-4/3 rounded-lg bg-gray-800 overflow-hidden cursor-pointer hover:opacity-80 transition-opacity"
+                                                >
+                                                    <img
+                                                        alt='Prueba'
+                                                        className='w-full h-full object-cover'
+                                                        src={getImgUrl(img)}
+                                                    />
+                                                </div>
+                                            ))}
+                                            {/* <div
                                                 className="aspect-4/3 rounded-lg bg-gray-800 overflow-hidden cursor-pointer hover:opacity-80 transition-opacity">
                                                 <img alt="Spacious modern living room with view"
                                                     className="w-full h-full object-cover"
@@ -110,11 +161,11 @@ export default function EditPropertiesPage() {
                                                 <div
                                                     className="absolute inset-0 flex items-center justify-center text-white font-bold text-lg">
                                                     +21</div>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
                                     {/* <!-- Description --> */}
-                                    <div className="flex flex-col gap-4">
+                                    {/* <div className="flex flex-col gap-4">
                                         <h2 className="text-white text-xl font-bold">Acerca de esta propiedad</h2>
                                         <p className="text-[#F6F6F6] leading-relaxed">
                                             Nestled in the heart of the prestigious Highland Valley, this architectural
@@ -131,43 +182,20 @@ export default function EditPropertiesPage() {
                                             shopping, and dining, The Highland Villa represents the pinnacle of sophisticated
                                             living.
                                         </p>
-                                    </div>
+                                    </div> */}
                                     {/* <!-- Amenities --> */}
                                     <div className="flex flex-col gap-4">
                                         <h2 className="text-white text-xl font-bold">Amenidades &amp; Características</h2>
                                         <div className="grid grid-cols-2 md:grid-cols-3 gap-y-4 gap-x-8">
-                                            <div className="flex items-center gap-3 text-sm text-gray-300">
-                                                <span className="material-symbols-outlined text-primary">pool</span>
-                                                Infinity Pool
-                                            </div>
-                                            <div className="flex items-center gap-3 text-sm text-gray-300">
-                                                <span className="material-symbols-outlined text-primary">fitness_center</span>
-                                                Home Gym
-                                            </div>
-                                            <div className="flex items-center gap-3 text-sm text-gray-300">
-                                                <span className="material-symbols-outlined text-primary">local_parking</span>
-                                                3 Car Garage
-                                            </div>
-                                            <div className="flex items-center gap-3 text-sm text-gray-300">
-                                                <span className="material-symbols-outlined text-primary">wine_bar</span>
-                                                Wine Cellar
-                                            </div>
-                                            <div className="flex items-center gap-3 text-sm text-gray-300">
-                                                <span className="material-symbols-outlined text-primary">nest_cam_iq_outdoor</span>
-                                                Smart Security
-                                            </div>
-                                            <div className="flex items-center gap-3 text-sm text-gray-300">
-                                                <span className="material-symbols-outlined text-primary">thermostat</span>
-                                                Central AC/Heating
-                                            </div>
-                                            <div className="flex items-center gap-3 text-sm text-gray-300">
-                                                <span className="material-symbols-outlined text-primary">solar_power</span>
-                                                Solar Panels
-                                            </div>
-                                            <div className="flex items-center gap-3 text-sm text-gray-300">
-                                                <span className="material-symbols-outlined text-primary">outdoor_grill</span>
-                                                Outdoor Kitchen
-                                            </div>
+                                            {property.amenities && property.amenities.length > 0 ? (
+                                                property.amenities.map((amenity, index) => (
+                                                    <div key={index} className="flex items-center gap-3 text-sm text-gray-300">
+                                                        {typeof amenity === 'object' ? amenity.nombre : amenity}
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <p className="text-gray-500 text-sm italic">No hay amenidades especificadas</p>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
@@ -177,20 +205,20 @@ export default function EditPropertiesPage() {
                                     <div className="bg-white/5 rounded-xl p-6 border border-[#34373A] shadow-lg">
                                         <p className="text-[#F6F6F6] text-sm font-medium mb-1">Precio de Lista</p>
                                         <div className="flex items-baseline gap-1">
-                                            <span className="text-3xl font-black text-white">$2,450,000</span>
+                                            <span className="text-3xl font-black text-white">${parseFloat(property.price).toLocaleString()}</span>
                                         </div>
                                         <div className="mt-6 flex flex-col gap-3">
                                             <div className="flex justify-between items-center py-2 border-b border-[#6b7280]">
-                                                <span className="text-[12px] uppercase tracking-widest opacity-60 mb-3 text-[#F6F6F6]">Est. Mortgage</span>
-                                                <span className="text-[12px] font-medium mb-3 text-white">$12,400/mo</span>
+                                                <span className="text-[12px] uppercase tracking-widest opacity-60 mb-3 text-[#F6F6F6]">Construcción</span>
+                                                <span className="text-[12px] font-medium mb-3 text-white">{property.construction}m</span>
                                             </div>
                                             <div className="flex justify-between items-center py-2 border-b border-[#6b7280]">
-                                                <span className="text-[12px] uppercase tracking-widest opacity-60 mb-3 text-[#F6F6F6]">HOA Fees</span>
-                                                <span className="text-[12px] font-medium mb-3 text-white">$450/mo</span>
+                                                <span className="text-[12px] uppercase tracking-widest opacity-60 mb-3 text-[#F6F6F6]">Terreno</span>
+                                                <span className="text-[12px] font-medium mb-3 text-white">{property.terrain}m²</span>
                                             </div>
                                             <div className="flex justify-between items-center py-2">
-                                                <span className="text-[12px] uppercase tracking-widest opacity-60 mb-3 text-[#F6F6F6]">Price / Sq Ft</span>
-                                                <span className="text-[12px] font-medium mb-3 text-white">$720</span>
+                                                <span className="text-[12px] uppercase tracking-widest opacity-60 mb-3 text-[#F6F6F6]">Estacionamiento</span>
+                                                <span className="text-[12px] font-medium mb-3 text-white">{property.parking}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -199,31 +227,15 @@ export default function EditPropertiesPage() {
                                         <div className="bg-white/5 p-4 rounded-xl border border-[#6b7280] flex flex-col gap-2">
                                             <BedDouble className="text-[#F6F6F6]" />
                                             <div>
-                                                <p className="text-xl font-bold text-white">5</p>
-                                                <p className="text-[12px] uppercase tracking-widest opacity-60 text-[#F6F6F6]">Bedrooms</p>
+                                                <p className="text-xl font-bold text-white">{property.bedrooms}</p>
+                                                <p className="text-[12px] uppercase tracking-widest opacity-60 text-[#F6F6F6]">Recámaras</p>
                                             </div>
                                         </div>
                                         <div className="bg-white/5 p-4 rounded-xl border border-[#6b7280] flex flex-col gap-2">
                                             <Bath className="text-[#F6F6F6]" />
                                             <div>
-                                                <p className="text-xl font-bold text-white">4.5</p>
-                                                <p className="text-[12px] uppercase tracking-widest opacity-60 text-[#F6F6F6]">Bathrooms</p>
-                                            </div>
-                                        </div>
-                                        <div className="bg-white/5 p-4 rounded-xl border border-[#6b7280] flex flex-col gap-2">
-                                            {/* <span className="material-symbols-outlined text-primary">square_foot</span> */}
-                                            <Ruler className="text-[#F6F6F6]" />
-                                            <div>
-                                                <p className="text-xl font-bold text-white">3,400</p>
-                                                <p className="text-[12px] uppercase tracking-widest opacity-60 text-[#F6F6F6]">Sq Ft</p>
-                                            </div>
-                                        </div>
-                                        <div className="bg-white/5 p-4 rounded-xl border border-[#6b7280] flex flex-col gap-2">
-                                            {/* <span className="material-symbols-outlined text-primary">calendar_today</span> */}
-                                            <CalendarDays className="text-[#F6F6F6]" />
-                                            <div>
-                                                <p className="text-xl font-bold text-white">2022</p>
-                                                <p className="text-[12px] uppercase tracking-widest opacity-60 text-[#F6F6F6]">Year Built</p>
+                                                <p className="text-xl font-bold text-white">{property.bathrooms}</p>
+                                                <p className="text-[12px] uppercase tracking-widest opacity-60 text-[#F6F6F6]">Baños</p>
                                             </div>
                                         </div>
                                     </div>

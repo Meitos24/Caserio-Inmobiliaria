@@ -50,8 +50,11 @@ export default function NewPropertyPage() {
         title: "",
         location: "",
         locationDetails: [] as string[],
+        favourite: false,
+        available: true,
         price: "",
-        area: "",
+        construction: "",
+        terrain: "",
         bedrooms: 1,
         bathrooms: 1,
         parking: 1,
@@ -159,7 +162,11 @@ export default function NewPropertyPage() {
         data.append("title", formData.title);
         data.append("location", formData.location);
         data.append("price", formData.price.toString());
-        data.append("area", formData.area);
+        data.append("construction", formData.construction);
+        data.append("terrain", formData.terrain);
+        data.append("favourite", formData.favourite.toString());
+        data.append("available", formData.available.toString());
+        data.append("area", formData.construction);
         data.append("bedrooms", formData.bedrooms.toString());
         data.append("bathrooms", formData.bathrooms.toString());
         data.append("parking", formData.parking.toString());
@@ -175,6 +182,8 @@ export default function NewPropertyPage() {
         imageFiles.forEach((file) => {
             data.append("uploaded_images", file);
         });
+
+        console.log(formData);
 
         try {
             const response = await fetch("http://localhost:8000/api/propiedades/", {
@@ -301,17 +310,59 @@ export default function NewPropertyPage() {
                                     </div>
                                 </div>
 
-                                {/* Área */}
+                                {/* Construcción */}
                                 <div>
-                                    <label className="block text-sm font-light text-zinc-400 mb-2">Área (m²)</label>
+                                    <label className="block text-sm font-light text-zinc-400 mb-2">Construcción</label>
                                     <input
                                         type="text"
-                                        value={formData.area}
-                                        onChange={(e) => setFormData({ ...formData, area: e.target.value })}
+                                        value={formData.construction}
+                                        onChange={(e) => setFormData({ ...formData, construction: e.target.value })}
                                         className="w-full bg-zinc-900/50 border border-zinc-800 rounded-lg px-4 py-3 text-zinc-100 font-light focus:outline-none focus:border-zinc-600 transition-colors"
                                         placeholder="Ej: 250"
                                         required
                                     />
+                                </div>
+
+                                {/* Terreno */}
+                                <div>
+                                    <label className="block text-sm font-light text-zinc-400 mb-2">Terreno</label>
+                                    <input
+                                        type="text"
+                                        value={formData.terrain}
+                                        onChange={(e) => setFormData({ ...formData, terrain: e.target.value })}
+                                        className="w-full bg-zinc-900/50 border border-zinc-800 rounded-lg px-4 py-3 text-zinc-100 font-light focus:outline-none focus:border-zinc-600 transition-colors"
+                                        placeholder="Ej: 250"
+                                        required
+                                    />
+                                </div>
+
+                                {/* Favourite */}
+                                <div>
+                                    <input
+                                        type="checkbox"
+                                        id="favourite"
+                                        checked={formData.favourite}
+                                        onChange={(e) => setFormData({ ...formData, favourite: e.target.checked })}
+                                        className="mr-2 accent-orange-400  bg-zinc-900/50 border border-zinc-800 rounded-lg px-4 py-3 text-blue-500 font-light focus:outline-none focus:border-zinc-600 "
+                                        placeholder="Ej: 250"
+                                        required
+                                    />
+                                    <label htmlFor="favourite" className="text-sm font-light text-zinc-400 mb-2">Favorito</label>
+                                    
+                                </div>
+
+                                <div>
+                                    <input
+                                        type="checkbox"
+                                        id="available"
+                                        checked={formData.available}
+                                        onChange={(e) => setFormData({ ...formData, available: e.target.checked })}
+                                        className="mr-2 accent-orange-400  bg-zinc-900/50 border border-zinc-800 rounded-lg px-4 py-3 text-blue-500 font-light focus:outline-none focus:border-zinc-600 "
+                                        placeholder="Ej: 250"
+                                        required
+                                    />
+                                    <label htmlFor="favourite" className="text-sm font-light text-zinc-400 mb-2">Disponible</label>
+
                                 </div>
                             </div>
                         </div>

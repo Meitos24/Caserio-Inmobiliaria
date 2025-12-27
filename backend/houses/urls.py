@@ -3,7 +3,8 @@ from rest_framework.routers import DefaultRouter
 from .views import PropiedadViewSet
 
 router = DefaultRouter()
-# El primer parámetro 'propiedades' construye la URL: /api/propiedades/
+
+# La URL  es /api/propiedades
 router.register(r'propiedades', PropiedadViewSet, basename='propiedad')
 
 urlpatterns = [

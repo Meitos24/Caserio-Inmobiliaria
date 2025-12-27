@@ -4,7 +4,7 @@ import axios from "axios";
 import Image from "next/image";
 import localFont from "next/font/local";
 import { useRouter } from "next/navigation";
-
+import { BedDouble } from "lucide-react";
 
 const neikoFont = localFont({
     src: "../../../assets/fonts/NeikoRegular-XGMP2.woff",
@@ -32,7 +32,6 @@ export default function PropertiesPage() {
     const router = useRouter();
 
     // Estados para el modal
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedProperty, setSelectedProeprty] = useState(null);
 
     // Obtener propiedades del back
@@ -58,8 +57,7 @@ export default function PropertiesPage() {
 
     const handleEditClick = (property) => {
         setSelectedProeprty(property);
-        setIsModalOpen(true);
-        router.replace('/admin/properties/edit')
+        router.push(`/admin/properties/edit/${property.id}`)
     }
 
 
@@ -108,62 +106,11 @@ export default function PropertiesPage() {
                                     >
                                         Editar
                                     </button>
-                                    {/* <button
-                                        onClick={() => handleDelete(property.id)}
-                                        className="bg-red-600/20 hover:bg-red-600 text-red-500 hover:text-white text-sm py-2 px-4 rounded-md transition-all"
-                                    >
-                                        Eliminar
-                                    </button> */}
                                 </div>
                             </div>
                         </div>
                     ))}
                 </div>
-
-                {/* {isModalOpen && selectedProperty && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-                        <div className="bg-[#1c1d1f] border border-white/20 w-full max-w-md rounded-xl p-8 shadow-2xl">
-                            <h2 className="text-2xl font-bold mb-6">Editar Propiedad</h2>
-
-                            <div className="space-y-4">
-                                <div>
-                                    <label className="block text-sm opacity-60 mb-1">Título</label>
-                                    <input
-                                        type="text"
-                                        defaultValue={selectedProperty.title}
-                                        className="w-full bg-white/5 border border-white/10 rounded p-2 outline-none focus:border-blue-500"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm opacity-60 mb-1">Precio</label>
-                                    <input
-                                        type="number"
-                                        defaultValue={selectedProperty.price}
-                                        className="w-full bg-white/5 border border-white/10 rounded p-2 outline-none focus:border-blue-500"
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="flex justify-end gap-3 mt-8">
-                                <button
-                                    onClick={() => setIsModalOpen(false)}
-                                    className="px-4 py-2 hover:bg-white/10 rounded transition-colors"
-                                >
-                                    Cancelar
-                                </button>
-                                <button
-                                    onClick={() => {
-                                        // Aquí llamarías a tu función de Guardar (PUT)
-                                        setIsModalOpen(false);
-                                    }}
-                                    className="px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded font-bold transition-colors"
-                                >
-                                    Guardar Cambios
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                )} */}
             </main>
         </div>
     );

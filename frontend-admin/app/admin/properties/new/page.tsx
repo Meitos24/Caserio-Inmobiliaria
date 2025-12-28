@@ -126,7 +126,10 @@ export default function NewPropertyPage() {
     };
 
     const removeImage = (index: number) => {
-        setImageFiles(imageFiles.filter((_, i) => i !== index))
+        setImageFiles(imageFiles.filter((_, i) => i !== index));
+
+        URL.revokeObjectURL(previews[index]);
+        setPreviews(previews.filter((_, i) => i !== index));
     }
 
     const addLocationDetail = () => {
@@ -493,6 +496,11 @@ export default function NewPropertyPage() {
                         {/* Imágenes */}
                         <div className="bg-zinc-900/30 backdrop-blur-sm border border-zinc-800/50 rounded-lg p-8">
                             <h2 className="text-xl font-light mb-6 text-zinc-100">Imágenes</h2>
+                            {imageFiles.length > 0 && (
+                                <span className="text-sm font-light text-[#E59136]">
+                                    {imageFiles.length} {imageFiles.length === 1 ? 'imagen seleccionada' : 'imágenes seleccionadas'}
+                                </span>
+                            )}
                             <div className="space-y-4">
                                 <div className="border-2 border-dashed border-zinc-800 rounded-lg p-8 text-center hover:border-zinc-700 transition-colors">
                                     <input
@@ -510,26 +518,32 @@ export default function NewPropertyPage() {
                                     </label>
                                 </div>
 
-                                {/* {images.length > 0 && (
-                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                        {images.map((image, index) => (
-                                            <div key={index} className="relative group">
+                                {previews.length > 0 && (
+                                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mt-6">
+                                        {previews.map((previewUrl, index) => (
+                                            <div key={index} className="relative group aspect-square">
                                                 <img
-                                                    src={image || "/placeholder.svg"}
+                                                    src={previewUrl}
                                                     alt={`Preview ${index + 1}`}
-                                                    className="w-full h-32 object-cover rounded-lg border border-zinc-800"
+                                                    className="w-full h-full object-cover rounded-lg border border-zinc-800"
                                                 />
                                                 <button
                                                     type="button"
                                                     onClick={() => removeImage(index)}
-                                                    className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                                                    className="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity z-20"
                                                 >
                                                     <X className="h-4 w-4" />
                                                 </button>
+                                                {/* Indicador de imagen principal (la primera) */}
+                                                {index === 0 && (
+                                                    <div className="absolute bottom-2 left-2 bg-[#E59136] text-[10px] px-2 py-0.5 rounded text-white font-bold uppercase">
+                                                        Principal
+                                                    </div>
+                                                )}
                                             </div>
                                         ))}
                                     </div>
-                                )} */}
+                                )}
                             </div>
                         </div>
 

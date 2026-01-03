@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-tfaz0_mbs!e!u52og0v(g+=5t$!j6^)%z%5@ir((25bw6+!xo0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["caserio-inmobiliaria.onrender.com"]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
